@@ -27,7 +27,7 @@ vel_mod=true; //è arrivato un comando
  mod_vel_y=msg->linear.y;
  angular=msg->angular.z;
 
- target_x=mod_vel_x*0.2;
+ target_x=mod_vel_x*0.1;
  //target_y=vel_y*0.2;
 }
 void LaserCallBack_aux(const sensor_msgs::LaserScan::ConstPtr& scan_in){
@@ -67,13 +67,21 @@ try
         geometry_msgs::Twist send;
        float distanza=sqrt(target_x*target_x+0*0); // è la distanza dal punto in cui voglio far ruotare il robot
        ROS_INFO("La distanza è %f \n", distanza);
-       ROS_INFO("Le forze sono %f %f %f\n", sum_fx,sum_fy);
-        send.angular.z=distanza*sum_fy/30;
+       
+       send.angular.z=distanza*sum_fy/30;
+       //send.angular.z=distanza;
         //agisco sulle componenti x ed y della velocità
-        sum_fx*=abs(mod_vel_x)/500; 
-        sum_fy*=abs(mod_vel_y)/500;
+        sum_fx*=abs(mod_vel_x)/600;
+        //sum_fy*=abs(mod_vel_y)/500;
+       // send.angular.z=distanza;
+       ROS_INFO("Le forze sono %f %f %f\n", sum_fx,sum_fy);
+       if(sum_fx<0){
+           send.linear.x= sum_fx + mod_vel_x;
 
-       send.linear.x= sum_fx + mod_vel_x;
+       }else{
+         send.linear.x=- sum_fx + mod_vel_x;
+       }
+              
        //if(send.linear.x>0 && send.linear.x<0.1 || sum_fx>1){
        // send.angular.z=1;
       //}else{
@@ -85,7 +93,7 @@ try
        
        ROS_INFO("Nuovo vettore velocità %f %f %f\n", send.linear.x,send.linear.y,send.angular.z);
           
-       vel_pub.publish(send);
+      vel_pub.publish(send);
 
 }
 void LaserCallBack(const sensor_msgs::LaserScan::ConstPtr& scan_in){
