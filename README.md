@@ -5,7 +5,7 @@ Istruzioni per l'esecuzione del progetto:
 3. Eseguire il comando 
    rosrun progetto progetto /base_scan /cmd_vel
 5. Aprire un altro terminale con cui si invieranno i comandi di velocità al robot, tramite il comando
-   rostopic pub -r 1 /cmd_vel/mod /geometry_msgs/Twist <message> (cmd_vel_mod è il comando di velocità che si andrà a modificare)
+   rostopic pub -r 1 /cmd_vel_mod /geometry_msgs/Twist <message> (cmd_vel_mod è il comando di velocità che si andrà a modificare)
 
 
 
