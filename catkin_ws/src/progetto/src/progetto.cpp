@@ -66,15 +66,15 @@ try
        sum_fy=-sum_fy;
         geometry_msgs::Twist send;
        float distanza=sqrt(target_x*target_x+0*0); // è la distanza dal punto in cui voglio far ruotare il robot
-       ROS_INFO("La distanza è %f \n", distanza);
+     //  ROS_INFO("La distanza è %f \n", distanza);
        
        send.angular.z=distanza*sum_fy/30;
        //send.angular.z=distanza;
         //agisco sulle componenti x ed y della velocità
         sum_fx*=abs(mod_vel_x)/600;
         //sum_fy*=abs(mod_vel_y)/500;
-       // send.angular.z=distanza;
-       ROS_INFO("Le forze sono %f %f %f\n", sum_fx,sum_fy);
+     
+     //  ROS_INFO("Le forze sono %f %f %f\n", sum_fx,sum_fy);
        if(sum_fx<0){
            send.linear.x= sum_fx + mod_vel_x;
 
@@ -91,7 +91,7 @@ try
        send.linear.y=mod_vel_y+sum_fy;
       
        
-       ROS_INFO("Nuovo vettore velocità %f %f %f\n", send.linear.x,send.linear.y,send.angular.z);
+       //ROS_INFO("Nuovo vettore velocità %f %f %f\n", send.linear.x,send.linear.y,send.angular.z);
           
       vel_pub.publish(send);
 
